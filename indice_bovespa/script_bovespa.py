@@ -21,5 +21,5 @@ def historico_bovespa(data_inicial, data_final, periodo):
 def obter_fechamento_bovespa(data_frame):
     """FUNCAO PARA OBTER FECHAMENTOS DO INDICE DE UM DATAFRAME"""
     fechamentos = manipulacao_dataframes.obter_fechamentos(data_frame)
-    print(fechamentos)
+    print(fechamentos.index) #-> para obter as datas do dataframe
     #print(fechamentos.head(1))
