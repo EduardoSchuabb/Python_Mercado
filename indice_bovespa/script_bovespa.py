@@ -1,6 +1,7 @@
 """ ARQUIVO PARA OBTER OS DADOS DO INDICE BOVESPA UTILIZANDO YFINANCE """
 
 import yfinance as yf
+from manipulacao_dataframes import manipulacao_dataframes
 
 
 def historico_bovespa(data_inicial, data_final, periodo):
@@ -13,4 +14,12 @@ def historico_bovespa(data_inicial, data_final, periodo):
     bovespa = yf.Ticker("^BVSP")
     bovespa_hist_bruto = bovespa.history(start=data_inicial, end=data_final, interval= periodo)
     bovespa_hist = bovespa_hist_bruto[["Open", "High", "Low", "Close", "Volume"]]
-    print(bovespa_hist.head)
+    #print(bovespa_hist.head)
+    return bovespa_hist
+
+
+def obter_fechamento_bovespa(data_frame):
+    """FUNCAO PARA OBTER FECHAMENTOS DO INDICE DE UM DATAFRAME"""
+    fechamentos = manipulacao_dataframes.obter_fechamentos(data_frame)
+    print(fechamentos)
+    #print(fechamentos.head(1))
