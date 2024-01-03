@@ -22,10 +22,30 @@ def analise_dados_bovespa_1mes():
     print("Quartil: 3", dados_estatisticos[3])
     print("Máximo: ", dados_estatisticos[4])
     print("Último fechamento: ", fechamento_atual)
-    
     # Fazer as analises condicionais para verificar a posicao
     # do ultimo fechamento em relacao os valores max, min, e
     # percentis dos referentes à 1 mes.
+
+    # fechamento de mercado com nova mínima.
+    if fechamento_atual < dados_estatisticos[0]:
+        pass
+    # fechamento de mercado entre a mínima e o primeiro quartil
+    elif dados_estatisticos[0] < fechamento_atual and fechamento_atual < dados_estatisticos[1]:
+        pass
+    # fechamento de mercado entre o primeiro quartil e a mediana
+    elif dados_estatisticos[1] < fechamento_atual and fechamento_atual < dados_estatisticos[2]:
+        pass
+    # fechamento de mercado entre a mediana e o terceiro quartil
+    elif dados_estatisticos[2] < fechamento_atual and fechamento_atual < dados_estatisticos[3]:
+        pass
+    # fechamento de mercado entre o terceiro quartil e o máximo
+    elif dados_estatisticos[3] < fechamento_atual and fechamento_atual < dados_estatisticos[4]:
+        pass
+    # fechamendoo de mercado com novas máximas
+    elif dados_estatisticos[4] < fechamento_atual:
+        pass
+
+
 
 
 
