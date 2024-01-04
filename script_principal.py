@@ -7,11 +7,29 @@ from indice_bovespa import script_bovespa
 
 def main():
     """ função principal para execução do código """
-    analise_dados_bovespa_1mes()
+    print("------- Analise mensal do bovespa -------")
+    analise_dados_bovespa(1)
+    print("------- Analise trimestral do bovespa -------")
+    analise_dados_bovespa(3)
+    print("------- Analise semestral do bovespa -------")
+    analise_dados_bovespa(6)
+    print("------- Analise anual do bovespa -------")
+    analise_dados_bovespa(12)
 
-def analise_dados_bovespa_1mes():
-    """ANALISAR COM DADOS ESTATISTICOS O INDICE BOVESPA A COM JANELA DE 1 MES"""
-    df_bovespa = obter_dados_bovespa_1mes()
+
+def obter_dados_bovespa(intervalo_de_tempo):
+    """ Método para obter dataframe com as informações do indice Bovespa
+    a partir de um intervalo de tempo informado em meses."""
+    dia_atual = datetime.date.today()
+    um_mes_antes = dia_atual - relativedelta(months=intervalo_de_tempo)
+    df_bovespa = script_bovespa.historico_bovespa(um_mes_antes, dia_atual, "1d")
+    return df_bovespa
+
+
+def analise_dados_bovespa(intervalo_de_tempo):
+    """Método de analise de dados do indice bovespa a partir de informacoes
+    entre um intervalo de tempo dado em meses."""
+    df_bovespa = obter_dados_bovespa(intervalo_de_tempo)
     fechamentos = script_bovespa.obter_fechamento_bovespa(df_bovespa)
     dados_estatisticos = script_bovespa.obter_valores_estatisticos(fechamentos)
     fechamento_atual = script_bovespa.obter_ultimo_fechamento_indice_bovespa()
@@ -19,64 +37,28 @@ def analise_dados_bovespa_1mes():
     print("Mínimo: ", dados_estatisticos[0])
     print("Quartil 1: ", dados_estatisticos[1])
     print("Mediana: ", dados_estatisticos[2])
-    print("Quartil: 3", dados_estatisticos[3])
+    print("Quartil 3: ", dados_estatisticos[3])
     print("Máximo: ", dados_estatisticos[4])
     print("Último fechamento: ", fechamento_atual)
-    # Fazer as analises condicionais para verificar a posicao
-    # do ultimo fechamento em relacao os valores max, min, e
-    # percentis dos referentes à 1 mes.
 
     # fechamento de mercado com nova mínima.
     if fechamento_atual < dados_estatisticos[0]:
-        pass
+        print("fechamento de mercado com nova mínima")
     # fechamento de mercado entre a mínima e o primeiro quartil
     elif dados_estatisticos[0] < fechamento_atual and fechamento_atual < dados_estatisticos[1]:
-        pass
+        print("fechamento de mercado entre a mínima e o primeiro quartil")
     # fechamento de mercado entre o primeiro quartil e a mediana
     elif dados_estatisticos[1] < fechamento_atual and fechamento_atual < dados_estatisticos[2]:
-        pass
+        print("fechamento de mercado entre o primeiro quartil e a mediana")
     # fechamento de mercado entre a mediana e o terceiro quartil
     elif dados_estatisticos[2] < fechamento_atual and fechamento_atual < dados_estatisticos[3]:
-        pass
+        print("fechamento de mercado entre a mediana e o terceiro quartil")
     # fechamento de mercado entre o terceiro quartil e o máximo
     elif dados_estatisticos[3] < fechamento_atual and fechamento_atual < dados_estatisticos[4]:
-        pass
-    # fechamendoo de mercado com novas máximas
+        print("fechamento de mercado entre o terceiro quartil e o máximo")
+    # fechamento de mercado com novas máximas
     elif dados_estatisticos[4] < fechamento_atual:
-        pass
-
-
-
-
-
-def obter_dados_bovespa_1mes():
-    """ Método para obter dataframe com as informações do indice Bovespa no intervalo de 3 meses"""
-    dia_atual = datetime.date.today()
-    um_mes_antes = dia_atual - relativedelta(months=1)
-    df_bovespa = script_bovespa.historico_bovespa(um_mes_antes, dia_atual, "1d")
-    return df_bovespa
-
-def obter_dados_bovespa_3meses():
-    """ Método para obter dataframe com as informações do indice Bovespa no intervalo de 3 meses"""
-    dia_atual = datetime.date.today()
-    tres_meses_antes = dia_atual - relativedelta(months=3)
-    df_bovespa = script_bovespa.historico_bovespa(tres_meses_antes, dia_atual, "1d")
-    return df_bovespa
-
-def obter_dados_bovespa_6meses():
-    """ Método para obter dataframe com as informações do indice Bovespa no intervalo de 6 meses"""
-    dia_atual = datetime.date.today()
-    seis_meses_antes = dia_atual - relativedelta(months=6)
-    df_bovespa = script_bovespa.historico_bovespa(seis_meses_antes, dia_atual, "1d")
-    return df_bovespa
-
-def obter_dados_bovespa_1ano():
-    """ Método para obter dataframe com as informações do indice Bovespa no intervalo de 1 ano"""
-    dia_atual = datetime.date.today()
-    um_ano_antes = dia_atual - relativedelta(years=1)
-    df_bovespa = script_bovespa.historico_bovespa(um_ano_antes, dia_atual, "1d")
-    return df_bovespa
-
+        print("fechamento de mercado com novas máximas")
 
 
 if __name__ == "__main__":

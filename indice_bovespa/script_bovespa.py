@@ -5,7 +5,7 @@ from manipulacao_dataframes import manipulacao_dataframes
 
 
 def obter_ultimo_fechamento_indice_bovespa():
-    """"""
+    """ METODO RESPONSAVEL POR OBTER O ULTIMO FECHAMENTO DO BOVESPA"""
     dados = yf.download("^BVSP", period="1d")
     # Obter o valor de fechamento mais recente
     valor_atual = dados['Close'].iloc[-1]
@@ -45,4 +45,3 @@ def obter_valores_estatisticos(serie):
     #print("Mediana :", mediana)
     #print("Percentil 3:", percentil_3)
     return serie[indice_minimo], percentil_1, mediana, percentil_3, serie[indice_maximo]
-
