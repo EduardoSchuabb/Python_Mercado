@@ -4,6 +4,13 @@ import yfinance as yf
 from manipulacao_dataframes import manipulacao_dataframes
 
 
+def obter_ultimo_fechamento_indice_bovespa():
+    """ METODO RESPONSAVEL POR OBTER O ULTIMO FECHAMENTO DO BOVESPA"""
+    dados = yf.download("^BVSP", period="1d")
+    # Obter o valor de fechamento mais recente
+    valor_atual = dados['Close'].iloc[-1]
+    return valor_atual
+
 def historico_bovespa(data_inicial, data_final, periodo):
     """FUNCAO PARA OBTER O HISTORICO DO INDICE BOVESPA
     argumentos:
@@ -17,9 +24,24 @@ def historico_bovespa(data_inicial, data_final, periodo):
     #print(bovespa_hist.head)
     return bovespa_hist
 
-
 def obter_fechamento_bovespa(data_frame):
     """FUNCAO PARA OBTER FECHAMENTOS DO INDICE DE UM DATAFRAME"""
     fechamentos = manipulacao_dataframes.obter_fechamentos(data_frame)
-    print(fechamentos.index) #-> para obter as datas do dataframe
-    #print(fechamentos.head(1))
+    return fechamentos
+
+def obter_valores_estatisticos(serie):
+    """METODO PARA OBTER OS DADOS ESTATISTICOS DA SERIE.
+    OS DADOS SAO: MAX, MIN E QUARTIS"""
+
+    indice_maximo = serie.idxmax()
+    indice_minimo = serie.idxmin()
+    percentil_1 = serie.quantile(0.25)
+    mediana = serie.quantile(0.5)
+    percentil_3 = serie.quantile(0.75)
+
+    #print("Na data: ", indice_maximo, " o valor foi máximo de: ", serie[indice_maximo])
+    #print("Na data: ", indice_minimo, " o valor foi mínimo de: ", serie[indice_minimo])
+    #print("Percentil 1:", percentil_1)
+    #print("Mediana :", mediana)
+    #print("Percentil 3:", percentil_3)
+    return serie[indice_minimo], percentil_1, mediana, percentil_3, serie[indice_maximo]
