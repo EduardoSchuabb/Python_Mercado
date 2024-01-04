@@ -3,6 +3,7 @@
 import datetime
 from dateutil.relativedelta import relativedelta
 from indice_bovespa import script_bovespa
+from manipulacao_acoes import script_acoes
 
 
 def main():
@@ -16,15 +17,26 @@ def main():
     print("------- Analise anual do bovespa -------")
     analise_dados_bovespa(12)
 
+    print("------------------------------------------")
+    obter_dados_acoes(1)
+
+
+def obter_dados_acoes(intervalo_de_tempo):
+    """Método para obter as informações das ações que
+    compõem o indice Bovespa"""
+    dia_atual = datetime.date.today()
+    data_anterior = dia_atual - relativedelta(months=intervalo_de_tempo)
+    dados_acoes = script_acoes.obter_dados_acoes(data_anterior, dia_atual)
+    print(dados_acoes)
+
 
 def obter_dados_bovespa(intervalo_de_tempo):
     """ Método para obter dataframe com as informações do indice Bovespa
     a partir de um intervalo de tempo informado em meses."""
     dia_atual = datetime.date.today()
-    um_mes_antes = dia_atual - relativedelta(months=intervalo_de_tempo)
-    df_bovespa = script_bovespa.historico_bovespa(um_mes_antes, dia_atual, "1d")
+    data_anterior = dia_atual - relativedelta(months=intervalo_de_tempo)
+    df_bovespa = script_bovespa.historico_bovespa(data_anterior, dia_atual, "1d")
     return df_bovespa
-
 
 def analise_dados_bovespa(intervalo_de_tempo):
     """Método de analise de dados do indice bovespa a partir de informacoes
