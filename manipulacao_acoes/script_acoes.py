@@ -1,6 +1,7 @@
 """ Arquivo para obter os dados das acoes usando o yfinance """
 
 import yfinance as yf
+from manipulacao_dataframes import manipulacao_dataframes
 
 """acoes_indice_bovespa = ["VALE3.SA", "PETR4.SA", "ITUB4.SA", "PETR3.SA","BBDC4.SA",
                         "ELET3.SA", "B3SA3.SA","BBAS3.SA", "ABEV3.SA", "ITSA4.SA",
@@ -33,3 +34,24 @@ def obter_dados_acoes(data_inicial, data_final):
         dados_acoes[acao] = dados_acao
 
     return dados_acoes
+
+def analise_quartil_acoes(dados_acao):
+    """Funcao para analisar os dados de uma acao em relacao aos
+    valores de max, min, media e os quartis"""
+
+    fechamento_dados_acao = manipulacao_dataframes.obter_fechamentos(dados_acao[1])
+
+    indice_maximo = fechamento_dados_acao.idxmax()
+    indice_minimo = fechamento_dados_acao.idxmin()
+    percentil_1 = fechamento_dados_acao.quantile(0.25)
+    mediana = fechamento_dados_acao.quantile(0.5)
+    percentil_3 = fechamento_dados_acao.quantile(0.75)
+    media = fechamento_dados_acao.median()
+
+    return (fechamento_dados_acao[indice_minimo], percentil_1,
+            mediana, percentil_3, fechamento_dados_acao[indice_maximo], media)
+
+def obter_ultimo_fechamento_acao(dados_acao):
+    """Retorna o ultimo fechamento da acao"""
+    
+    return dados_acao[1].iloc[-1]["Close"]

@@ -8,26 +8,69 @@ from manipulacao_acoes import script_acoes
 
 def main():
     """ função principal para execução do código """
-    print("------- Analise mensal do bovespa -------")
+    """print("------- Analise mensal do bovespa -------")
     analise_dados_bovespa(1)
     print("------- Analise trimestral do bovespa -------")
     analise_dados_bovespa(3)
     print("------- Analise semestral do bovespa -------")
     analise_dados_bovespa(6)
     print("------- Analise anual do bovespa -------")
-    analise_dados_bovespa(12)
+    analise_dados_bovespa(12)"""
 
     print("------------------------------------------")
-    obter_dados_acoes(1)
+    analise_dados_acoes(3)
 
 
 def obter_dados_acoes(intervalo_de_tempo):
     """Método para obter as informações das ações que
-    compõem o indice Bovespa"""
+    compõem o indice Bovespa
+    intervalo_de_tempo em meses"""
     dia_atual = datetime.date.today()
     data_anterior = dia_atual - relativedelta(months=intervalo_de_tempo)
     dados_acoes = script_acoes.obter_dados_acoes(data_anterior, dia_atual)
-    print(dados_acoes)
+    return dados_acoes
+
+def analise_dados_acoes(intervalo_de_tempo):
+    """Método para analisar a informações das ações que
+    compõem o indice Bosvespa
+    intervalo_de_tempo em meses"""
+    dados_acoes = obter_dados_acoes(intervalo_de_tempo)
+    for acao in dados_acoes.items():
+        dados_estatistico_acao = script_acoes.analise_quartil_acoes(acao)
+        ultimo_fechamento = script_acoes.obter_ultimo_fechamento_acao(acao)
+        print("Ação: ", acao[0])
+        mostrar_dados_estatisticos(dados_estatistico_acao, ultimo_fechamento)
+        print("-----------------------------")
+
+def mostrar_dados_estatisticos(dados_estatistico_acao, ultimo_fechamento, detalhe = False):
+    """Funcao para mostrar os dados estatisticos da acao"""
+    if(detalhe):
+        print("O valor foi mínimo de: ", dados_estatistico_acao[0])
+        print("Percentil 1: ", dados_estatistico_acao[1])
+        print("Mediana: ", dados_estatistico_acao[2])
+        print("Percentil 3: ", dados_estatistico_acao[3])
+        print("O valor foi máximo de: ", dados_estatistico_acao[4])
+        print("Media: ", dados_estatistico_acao[5])
+        print("Ultimo fechamento: ", ultimo_fechamento)
+
+     # fechamento de mercado com nova mínima.
+    if ultimo_fechamento < dados_estatistico_acao[0]:
+        print("Acao com nova mínima")
+    # fechamento de mercado entre a mínima e o primeiro quartil
+    elif dados_estatistico_acao[0] < ultimo_fechamento and ultimo_fechamento < dados_estatistico_acao[1]:
+        print("Acao entre a mínima e o primeiro quartil")
+    # fechamento de mercado entre o primeiro quartil e a mediana
+    elif dados_estatistico_acao[1] < ultimo_fechamento and ultimo_fechamento < dados_estatistico_acao[2]:
+        print("Acao entre o primeiro quartil e a mediana")
+    # fechamento de mercado entre a mediana e o terceiro quartil
+    elif dados_estatistico_acao[2] < ultimo_fechamento and ultimo_fechamento < dados_estatistico_acao[3]:
+        print("Acao entre a mediana e o terceiro quartil")
+    # fechamento de mercado entre o terceiro quartil e o máximo
+    elif dados_estatistico_acao[3] < ultimo_fechamento and ultimo_fechamento < dados_estatistico_acao[4]:
+        print("Acao entre o terceiro quartil e o máximo")
+    # fechamento de mercado com novas máximas
+    elif dados_estatistico_acao[4] < ultimo_fechamento:
+        print("Acao com novas máximas")
 
 
 def obter_dados_bovespa(intervalo_de_tempo):
