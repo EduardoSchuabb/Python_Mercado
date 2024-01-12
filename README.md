@@ -5,18 +5,37 @@ Bibliotecas utilizadas (até agora):
  - yfinance
  - Pandas
 
+Ferramentas/extensões que auxiliam o desennvolvimento:
+ - Visual Studio code (com as extensões)
+    - Python
+    - Pylance
+    - Pylint
+    - Jupyter
+    - Portuguese Language Pack
+    - Dracula Official
+
 A fazer:
-- Estudar estratégia de fechamento dos dias (dia1 - dia0) e verificar "padrões":
-    - Verificar dados como média, máximo, mínimo, desvio-padrão;
-- Verificar as ações que estão fazendo novas máximas e novas mínimas (em 1, 3, 6 e 12 meses);
 - Obter média de aumento de uma ação no dia;
+ - Considerar dias de ganha e dias de perda (connsiderar variação negativa e positiva).
 - Obter média de volume de negócios diário de uma ação;
 - Colocar/usar no código a biblioteca icecream (debbug);
+- Verificar o retorno dos dados de algumas ações (ver qual dado não retorna):
+    - ELET3.SA
+    - ITSA4.SA
+    - UGPA3.SA
+    - GGBR4.SA
+    - SBSP3.SA
+    - HAPV3.SA
+    - ELET6.SA
+    - GOAU4.SA
+    - SMTO3.SA
+    - BHIA3.SA
 
 Fazendo:
  - Organização dos scripts em pastas com suas devidas funcionalidades;
- 
-
+ - Estudar estratégia de fechamento dos dias (dia1 - dia0) e verificar "padrões":
+    - Verificar dados como média, máximo, mínimo, desvio-padrão;
+- Verificar as ações que estão fazendo novas máximas e novas mínimas (em 1, 3, 6 e 12 meses);
 
 
 Feito:

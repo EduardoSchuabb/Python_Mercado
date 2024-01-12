@@ -1,6 +1,7 @@
 """ Arquivo para obter os dados das acoes usando o yfinance """
 
 import yfinance as yf
+import numpy as np
 from manipulacao_dataframes import manipulacao_dataframes
 
 """acoes_indice_bovespa = ["VALE3.SA", "PETR4.SA", "ITUB4.SA", "PETR3.SA","BBDC4.SA",
@@ -24,6 +25,10 @@ from manipulacao_dataframes import manipulacao_dataframes
 
 acoes_indice_bovespa = ["VALE3.SA", "PETR4.SA"]
 
+
+def obter_ultimo_fechamento_acao(dados_acao):
+    """Retorna o ultimo fechamento da acao"""
+    return dados_acao[1].iloc[-1]["Close"]
 
 def obter_dados_acoes(data_inicial, data_final):
     """Funcao para obter os dados das acoes que compoem o indice bovespa"""
@@ -51,7 +56,29 @@ def analise_quartil_acoes(dados_acao):
     return (fechamento_dados_acao[indice_minimo], percentil_1,
             mediana, percentil_3, fechamento_dados_acao[indice_maximo], media)
 
-def obter_ultimo_fechamento_acao(dados_acao):
-    """Retorna o ultimo fechamento da acao"""
+def analise_variacao_fechamentos(dados_acao):
+    """Funcao para analisar os dados
+    dos fechamentos entre dias seguidos."""
+    datas_e_fechamentos = manipulacao_dataframes.obter_fechamentos(dados_acao[1])
+    fechamentos = datas_e_fechamentos.reset_index(drop=True)
+    vetor_diferencas = []
+    for indice, fechamento in enumerate(fechamentos):
+        print(f'Fechamento: {round(fechamento,2):.2f} ', end="")
+        if indice > 0:
+            #indice_anterior = fechamentos.index[indice - 1]
+            fechamento_anterior = fechamentos.iloc[indice - 1]
+            diferenca = fechamento - fechamento_anterior
+            vetor_diferencas.append(abs(diferenca))
+            print(f'Diferença: {round(diferenca,2):.2f}')
+        else:
+            print()
     
-    return dados_acao[1].iloc[-1]["Close"]
+    media = np.mean(vetor_diferencas)
+    maxima = np.max(vetor_diferencas)
+    minima = np.min(vetor_diferencas)
+    desvio_padrao = np.std(vetor_diferencas)
+
+    print(f'Maxima variacao: {round(maxima,2):.2f}')
+    print(f'Minima variacao: {round(minima,2):.2f}')
+    print(f'Media variacao: {round(media,2):.2f}')
+    print(f'Desvio padrão variacao: {round(desvio_padrao,2):.2f}')

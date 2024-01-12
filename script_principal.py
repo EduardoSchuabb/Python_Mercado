@@ -38,13 +38,14 @@ def analise_dados_acoes(intervalo_de_tempo):
     for acao in dados_acoes.items():
         dados_estatistico_acao = script_acoes.analise_quartil_acoes(acao)
         ultimo_fechamento = script_acoes.obter_ultimo_fechamento_acao(acao)
+        script_acoes.analise_variacao_fechamentos(acao)
         print("Ação: ", acao[0])
-        mostrar_dados_estatisticos(dados_estatistico_acao, ultimo_fechamento)
-        print("-----------------------------")
+        #mostrar_dados_estatisticos(dados_estatistico_acao, ultimo_fechamento)
+        print("-"*30)
 
 def mostrar_dados_estatisticos(dados_estatistico_acao, ultimo_fechamento, detalhe = False):
     """Funcao para mostrar os dados estatisticos da acao"""
-    if(detalhe):
+    if detalhe:
         print("O valor foi mínimo de: ", dados_estatistico_acao[0])
         print("Percentil 1: ", dados_estatistico_acao[1])
         print("Mediana: ", dados_estatistico_acao[2])
@@ -57,17 +58,21 @@ def mostrar_dados_estatisticos(dados_estatistico_acao, ultimo_fechamento, detalh
     if ultimo_fechamento < dados_estatistico_acao[0]:
         print("Acao com nova mínima")
     # fechamento de mercado entre a mínima e o primeiro quartil
-    elif dados_estatistico_acao[0] < ultimo_fechamento and ultimo_fechamento < dados_estatistico_acao[1]:
+    elif (dados_estatistico_acao[0] < ultimo_fechamento and
+          ultimo_fechamento < dados_estatistico_acao[1]):
         print("Acao entre a mínima e o primeiro quartil")
     # fechamento de mercado entre o primeiro quartil e a mediana
-    elif dados_estatistico_acao[1] < ultimo_fechamento and ultimo_fechamento < dados_estatistico_acao[2]:
+    elif (dados_estatistico_acao[1] < ultimo_fechamento and
+          ultimo_fechamento < dados_estatistico_acao[2]):
         print("Acao entre o primeiro quartil e a mediana")
     # fechamento de mercado entre a mediana e o terceiro quartil
-    elif dados_estatistico_acao[2] < ultimo_fechamento and ultimo_fechamento < dados_estatistico_acao[3]:
+    elif (dados_estatistico_acao[2] < ultimo_fechamento and
+          ultimo_fechamento < dados_estatistico_acao[3]):
         print("Acao entre a mediana e o terceiro quartil")
     # fechamento de mercado entre o terceiro quartil e o máximo
-    elif dados_estatistico_acao[3] < ultimo_fechamento and ultimo_fechamento < dados_estatistico_acao[4]:
-        print("Acao entre o terceiro quartil e o máximo")
+    elif (dados_estatistico_acao[3] < ultimo_fechamento and
+          ultimo_fechamento < dados_estatistico_acao[4]):
+        print("Acao entre o terceiro quartil e a máxima")
     # fechamento de mercado com novas máximas
     elif dados_estatistico_acao[4] < ultimo_fechamento:
         print("Acao com novas máximas")
